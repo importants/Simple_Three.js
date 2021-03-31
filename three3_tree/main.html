@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>project</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+
+  <body></body>
+  <script src="./three/build/three.js"></script>
+  <script src="./three/examples/js/controls/OrbitControls.js"></script>
+  <script>
+    let camera, scene, renderer;
+    let mouse, raycaster;
+    let controls;
+    let rollOverMesh, rollOverMaterial;
+    let cubeGeo, cubeMaterial;
+    let objLoader;
+    let i = 0;
+    init();
+    render();
+
+    function init() {
+      camera = new THREE.PerspectiveCamera(
+        45,
+        window.innerWidth / window.innerHeight,
+        1,
+        10000
+      );
+      camera.position.set(20, 50, 20);
+      camera.lookAt(0, 0, 0);
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0xf0f0f0);
+      const ambientLight = new THREE.AmbientLight(0x606060);
+      scene.add(ambientLight);
+      const directionalLight = new THREE.DirectionalLight(0xffffff);
+      directionalLight.position.set(1, 0.75, 0.5).normalize();
+      scene.add(directionalLight);
+      renderer = new THREE.WebGLRenderer({
+        antialias: true,
+      });
+      const size = 10;
+      const divisions = 10;
+      const gridHelper = new THREE.GridHelper(size, divisions);
+      scene.add(gridHelper);
+      const axesHelper = new THREE.AxesHelper(10);
+      scene.add(axesHelper);
+      renderer.setPixelRatio(window.devicePixelRatio);
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      window.addEventListener("resize", onWindowResize);
+
+      let baseGo = new THREE.CylinderGeometry(5, 5, 0.5, 16);
+      let baseMat = new THREE.MeshLambertMaterial({
+        color: 0x78fabc,
+      });
+      let base = new THREE.Mesh(baseGo, baseMat);
+      scene.add(base);
+
+      let tree = new THREE.Object3D();
+
+      let trunks = [];
+      let trunk_position = [];
+      let trunkGeo = new THREE.CylinderGeometry(0.3, 0.5, 6, 5);
+      let trunkMat = new THREE.MeshLambertMaterial({
+        color: 0xd9bd80,
+        linewidth: 4,
+      });
+      for (i = 0; i < 5; i++) {
+        trunks[i] = new THREE.Mesh(trunkGeo, trunkMat);
+        trunk_position[i] = new THREE.Object3D();
+        tree.add(trunk_position[i]);
+        trunks[i].position.y = 5;
+        trunk_position[i].add(trunks[i]);
+        console.log(trunks[i]);
+      }
+
+      let leafGo = new THREE.IcosahedronGeometry(2);
+      let leafMat = new THREE.MeshLambertMaterial({
+        color: 0x62d130,
+      });
+      let leafsGroup = new THREE.Object3D();
+      let leafs = [];
+      for (i = 0; i < 20; i++) {
+        leafs[i] = new THREE.Mesh(leafGo, leafMat);
+      }
+
+      trunk_position[0].position.y = 0;
+      trunks[0].position.y = 2;
+      trunks[0].scale.set(1, 0.7, 1);
+
+      leafs[1].position.set(1, 4, 0);
+      leafs[1].scale.set(0.7, 0.7, 0.7);
+      trunk_position[0].add(leafs[1]);
+
+      leafs[2].position.set(0, 5.5, 0);
+      leafs[2].scale.set(1, 1, 1);
+      trunk_position[0].add(leafs[2]);
+
+      trunk_position[1].position.y = 2;
+      trunk_position[1].rotation.y = Math.PI / 1;
+      trunk_position[1].rotation.x = Math.PI / 3.5;
+      trunks[1].position.y = 1;
+      trunks[1].scale.set(0.3, 0.3, 0.3);
+
+      leafs[3].position.set(0, 2.5, 0);
+      leafs[3].scale.set(0.5, 0.5, 0.5);
+      leafs[4].position.set(0.5, 2, 0);
+      leafs[4].scale.set(0.3, 0.3, 0.3);
+      for (i = 3; i < 5; i++) {
+        trunk_position[1].add(leafs[i]);
+      }
+
+      trunk_position[2].position.y = 1.8;
+      trunk_position[2].rotation.y = Math.PI / 0.3;
+      trunk_position[2].rotation.z = Math.PI / 2.9;
+      trunks[2].position.y = 1;
+      trunks[2].scale.set(0.4, 0.4, 0.4);
+
+      leafs[5].position.set(0, 3, 0);
+      leafs[5].scale.set(0.7, 0.7, 0.7);
+      leafs[6].position.set(0.5, 3.5, 0.5);
+      leafs[6].scale.set(0.5, 0.5, 0.5);
+      leafs[7].position.set(-0.5, 4, -0.5);
+      leafs[7].scale.set(0.5, 0.5, 0.5);
+      for (i = 5; i < 8; i++) {
+        trunk_position[2].add(leafs[i]);
+      }
+
+      trunk_position[3].position.y = 2;
+      trunk_position[3].rotation.y = Math.PI / 0.1;
+      trunk_position[3].rotation.z = Math.PI / 3.9;
+      trunks[3].position.y = 1;
+      trunks[3].scale.set(0.2, 0.2, 0.2);
+
+      leafs[8].position.set(0, 2, 0);
+      leafs[8].scale.set(0.4, 0.4, 0.4);
+      leafs[9].position.set(-0.5, 2, -0.5);
+      leafs[9].scale.set(0.3, 0.3, 0.3);
+      for (i = 8; i < 10; i++) {
+        trunk_position[3].add(leafs[i]);
+      }
+
+      trunk_position[4].position.y = 1.5;
+      trunk_position[4].rotation.y = Math.PI / 1.4;
+      trunk_position[4].rotation.z = Math.PI / 3.9;
+      trunks[4].position.y = 1;
+      trunks[4].scale.set(0.2, 0.2, 0.2);
+
+      scene.add(tree);
+
+      renderer.setAnimationLoop(render);
+    }
+
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    function render() {
+      renderer.render(scene, camera);
+      controls.update();
+    }
+  </script>
+</html>
