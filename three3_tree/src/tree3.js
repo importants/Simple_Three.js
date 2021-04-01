@@ -118,12 +118,14 @@ export const tree3 = (() => {
                 .divideScalar(10)
                 .floor()
                 .multiplyScalar(10)
-                .addScalar(1);
+                .addScalar(0);
             tree3.rotation.y = this.random_rotation();
             this.random_scale(tree3)
             this.tree_ = tree3;
+            tree3.castShadow = true;
+            tree3.receiveShadow = true;
             // 위치this.tree_.position.copy(this.position_);
-            this.tree_.name = "tree"
+            this.tree_.name = "tree3"
         }
 
         random_scale(tree) {
@@ -131,7 +133,7 @@ export const tree3 = (() => {
             let max = (1.3);
             let num = (Math.random() * (max - min)) + min;
             tree.scale.set(num, num, num)
-            tree.position.y += (num / 2) + 0.5;
+
         }
 
 

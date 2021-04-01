@@ -27,7 +27,7 @@ export const cloud1 = (() => {
             for (let i = 0; i < 5; i++) {
                 cloud1Mat = new THREE.MeshLambertMaterial({
                     color: this.random_color(),
-                    opacity: 0.9,
+                    opacity: 0.3,
                     transparent: true,
                 });
                 clouds[i] = new THREE.Mesh(cloud1Go, cloud1Mat);
@@ -55,6 +55,8 @@ export const cloud1 = (() => {
             this.random_height(cloud1);
             cloud1.rotation.y = this.random_rotation();
             //this.random_scale(cloud1)
+            cloud1.castShadow = true;
+            cloud1.receiveShadow = true;
             this.cloud1 = cloud1;
             this.cloud1.name = "cloud1"
         }

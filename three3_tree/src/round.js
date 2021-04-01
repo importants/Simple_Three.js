@@ -1,16 +1,18 @@
 import * as THREE from '../three/build/three.module.js';
 
-export const ground = (() => {
+export const round = (() => {
 
     let i = 0;
-    class ground {
+    class round {
         constructor(params) {
             let {
                 scene,
-
-
+                position,
+                rotation
             } = params;
             this.scene_ = scene;
+            this.position_ = position;
+            this.rotation_ = rotation;
             // new THREE.Vector3(10, 10, 10);
             this.velocity_ = 0.0;
 
@@ -22,30 +24,24 @@ export const ground = (() => {
 
 
 
-            const groundGeo = new THREE.BoxGeometry(220, 220, 4);
-            const groundMat = new THREE.MeshLambertMaterial({
-                color: this.random_color(),
+            const roundGeo = new THREE.BoxGeometry(221, 1, 16);
+            const roundMat = new THREE.MeshLambertMaterial({
+                color: 0xE4E4E4,
+                opacity: 0.7,
+                transparent: true,
             });
 
-            const ground = new THREE.Mesh(groundGeo, groundMat)
+            const round = new THREE.Mesh(roundGeo, roundMat);
 
-            this.scene_.add(ground);
-            ground.rotation.x = Math.PI / -2;
-            ground.position.y = -2;
-            ground.castShadow = true;
-            ground.receiveShadow = true;
-            this.ground_ = ground;
-            // 위치this.tree_.position.copy(this.position_);
-            this.ground_.name = "ground"
-        }
-
-
-        random_color() {
-            // 위치 변경 함수
-            let color = [0xAEDE24, 0xB0E712, 0xC6F04D];
-            let min = Math.ceil(0);
-            let max = Math.floor(2);
-            return color[Math.floor(Math.random() * (max - min)) + min];
+            this.scene_.add(round);
+            round.rotation.x = Math.PI / -2;
+            round.rotation.z = this.rotation_;
+            round.castShadow = true;
+            round.receiveShadow = true;
+            this.round_ = round;
+            this.round_.position.copy(this.position_);
+            round.position.y = 8;
+            this.round_.name = "round"
         }
 
         /* animation */
@@ -68,6 +64,6 @@ export const ground = (() => {
         }
     }
     return {
-        ground: ground,
+        round: round,
     };
 })();

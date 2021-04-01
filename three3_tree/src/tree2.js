@@ -51,6 +51,8 @@ export const tree2 = (() => {
                 .addScalar(2);
             tree2.rotation.y = this.random_rotation();
             this.random_scale(tree2)
+            tree2.castShadow = true;
+            tree2.receiveShadow = true;
             this.tree_ = tree2;
             this.tree_.name = "tree"
 

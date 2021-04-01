@@ -38,6 +38,8 @@ export const rock = (() => {
             rock.position.x += 2;
             rock.rotation.y = this.random_rotation();
             this.random_scale(rock)
+            rock.castShadow = true;
+            rock.receiveShadow = true;
             this.rock = rock;
             this.rock.name = "rock"
         }

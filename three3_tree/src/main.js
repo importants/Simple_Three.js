@@ -12,8 +12,14 @@ import {
   ground
 } from "./ground.js";
 import {
+  round
+} from "./round.js";
+import {
   tree3
 } from "./tree3.js";
+import {
+  tree4
+} from "./tree4.js";
 import {
   rock
 } from "./rock.js";
@@ -38,18 +44,26 @@ class main_three {
       1,
       10000
     );
-    this.camera.position.set(100, 100, 100);
+    this.camera.position.set(230, 200, 230);
     this.camera.lookAt(0, 0, 0);
 
     this.scene_ = new THREE.Scene();
     this.scene_.background = new THREE.Color("rgb(243, 243, 253)");
 
     // lights
-    const ambientLight = new THREE.AmbientLight(0x606060);
-    this.scene_.add(ambientLight);
-    const directionalLight = new THREE.DirectionalLight(0xffffff);
-    directionalLight.position.set(100, 100, 100).normalize();
-    this.scene_.add(directionalLight);
+    // const ambientLight = new THREE.AmbientLight(0x606060, .1);
+    // ambientLight.castShdow = true;
+    // this.scene_.add(ambientLight);
+    // const directionalLight = new THREE.DirectionalLight(0xffffff);
+    // directionalLight.position.set(1000, 1000, 1000).normalize();
+    // this.scene_.add(directionalLight);
+    var spotLight = new THREE.SpotLight(0xFFFFFF);
+
+    spotLight.position.set(0, 200, 0);
+    spotLight.castShdow = true;
+
+    spotLight.shadow.mapSize = new THREE.Vector2(1024, 1024);
+    this.scene_.add(spotLight);
 
 
 
@@ -57,6 +71,7 @@ class main_three {
       antialias: true,
     });
     this.renderer.setPixelRatio(window.devicePixelRatio);
+    this.renderer.shadowMap.enabled = true;
     this.renderer.setClearColor("#FFFFFF", 1);
     this.renderer.outputEncoding = THREE.sRGBEncoding;
     this.renderer.gammaFactor = 2.2;
@@ -94,9 +109,14 @@ class main_three {
         leafColor: this.random_color(true),
         TrunkColor: this.random_color(false),
       })
-    new ground.ground({
-      scene: this.scene_,
-    })
+    for (let i = 0; i < 80; i++)
+      new tree4.tree4({
+        scene: this.scene_,
+        position: new THREE.Vector3(this.random_position(), 0, this.random_position()),
+        leafColor: this.random_color(true),
+        TrunkColor: this.random_color(false),
+      })
+
     for (let i = 0; i < 50; i++)
       new rock.rock({
         scene: this.scene_,
@@ -113,6 +133,33 @@ class main_three {
         scene: this.scene_,
         position: new THREE.Vector3(this.random_position_cloud() / 1.2, 0, this.random_position_cloud() / 1.2),
       })
+
+    new ground.ground({
+      scene: this.scene_,
+    })
+
+    new round.round({
+      scene: this.scene_,
+      position: new THREE.Vector3(110, 0, 0),
+      rotation: Math.PI / 2,
+    })
+    new round.round({
+      scene: this.scene_,
+      position: new THREE.Vector3(-110, 0, 0),
+      rotation: Math.PI / 2,
+    })
+    new round.round({
+      scene: this.scene_,
+      position: new THREE.Vector3(0, 0, 110),
+      rotation: Math.PI / 1,
+    })
+    new round.round({
+      scene: this.scene_,
+      position: new THREE.Vector3(0, 0, -110),
+      rotation: Math.PI / 1,
+    })
+
+
 
     window.addEventListener("resize", this.onWindowResize);
     document.addEventListener("keydown", this.onDocumentKeyDown);
