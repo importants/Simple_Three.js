@@ -1,0 +1,7 @@
+diff a/three4/.vscode/settings.json b/three4/.vscode/settings.json	(rejected hunks)
+@@ -1,4 +1,3 @@
+ {
+-    "liveServer.settings.port": 5501
+     "liveServer.settings.port": 5502
+ }
+\ No newline at end of file

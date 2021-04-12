@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>three</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      button {
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: flex-end;
+        align-items: flex-start;
+        width: 50px;
+        height: 50px;
+        border: none;
+        background: rgb(248, 248, 248);
+        box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
+        color: white;
+      }
+      p {
+        margin-left: 4px;
+        margin-bottom: 4px;
+      }
+      button:nth-child(1) {
+        background: url(src/block/img/block1/rough-igneous-rock-preview.jpg);
+        background-position: center;
+        background-size: 70px;
+      }
+      button:nth-child(2) {
+        background: url(src/block/img/block2/rock-slab-wall_preview.jpg);
+        background-position: center;
+        background-size: 100px;
+      }
+      button:nth-child(3) {
+        background: url(src/block/img/block3/wood-veneer1-albedo.png);
+        background-position: center;
+        background-size: 100px;
+      }
+      button:nth-child(4) {
+        background: url(src/block/img/block4/bamboo-wood-semigloss-albedo.png);
+        background-position: center;
+        background-size: 100px;
+      }
+      button:nth-child(5) {
+        background: url(src/block/img/block5/T_Old_Terracotta_Floor_BC.png);
+        background-position: center;
+        background-size: 100px;
+      }
+      button:hover {
+        border: 5px solid black;
+      }
+      button:active {
+        background: rgb(136, 136, 136);
+      }
+
+      .selectBox {
+        position: fixed;
+        display: flex;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 250px;
+        height: 50px;
+        border: 5px solid rgb(0, 0, 0);
+        background: rgb(248, 248, 248);
+        box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.1);
+      }
+      .info {
+        position: fixed;
+        bottom: 10px;
+        left: 10px;
+        width: 60px;
+        height: 60px;
+        border: 3px solid rgb(255, 255, 255);
+        box-sizing: border-box;
+        border-radius: 30px;
+        background: rgb(12, 16, 255);
+        text-align: center;
+        line-height: 50px;
+        font-size: 30px;
+        color: white;
+      }
+
+      .txt {
+        position: absolute;
+        bottom: 5px;
+        left: 10px;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.651);
+        border-radius: 10px;
+        padding: 0;
+        text-align: left;
+        line-height: 16px;
+        font-size: 12px;
+        color: black;
+        transition: all 0.2s cubic-bezier(0.64, 1.41, 0.78, 1.41);
+      }
+
+      .info:hover .txt {
+        left: 100px;
+        width: 350px;
+        height: 50px;
+        padding: 5px 20px;
+      }
+      .txt p {
+        display: block;
+        position: relative;
+        width: 330px;
+        height: 30px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="info">
+      i
+      <div class="txt">
+        <p>
+          A키를 누른 상태에서 마우스 좌클릭하면 도형이 쌓입니다.<br />
+          키보드의 숫자(1~5)를 누르셔도 됩니다.<br />
+          D키를 누르면 최근에 추가한 도형부터 차례대로 지워집니다.
+        </p>
+      </div>
+    </div>
+
+    <div class="selectBox">
+      <button class="btn1"><p>1</p></button>
+      <button class="btn2"><p>2</p></button>
+      <button class="btn3"><p>3</p></button>
+      <button class="btn4"><p>4</p></button>
+      <button class="btn5"><p>5</p></button>
+    </div>
+
+    <script src="./src/main.js" type="module"></script>
+  </body>
+</html>
